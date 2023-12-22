@@ -8,7 +8,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background-color: #333;
+    background-color: #0f0f0fdc;
     color: #fff;
     border-radius: 5px;
   }
@@ -115,7 +115,7 @@
   
   /* Estilos para el fondo */
   .bg-div {
-    background-color: #333;
+    background-color: #0f0f0fdc;
     position: absolute;
     z-index: -1;
   
@@ -132,5 +132,8 @@
     display: flex;
     justify-content: center;
     padding-right: 25px;
+  }
+  .logo-tienda {
+    width: 400px;
   }
 

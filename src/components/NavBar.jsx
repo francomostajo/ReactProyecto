@@ -28,7 +28,7 @@ const NavBar = () => {
           </div>
         )}
       </div>
-      <h2 className="title">Nombre de la Tienda</h2>
+      <img src={"./img/amarrilloLogoTipo.png"} alt="Logo de la Tienda" className="logo-tienda" />
       <div className="cart-widget">
       <CartWidget/>
       <p>(3)</p>
