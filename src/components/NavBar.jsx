@@ -1,40 +1,48 @@
-import React, { useState } from 'react';
-import './Styles/NavBar.css';
+import React from 'react';
 import CartWidget from './CartWidget';
+import { Menu, MenuButton, MenuList, MenuItem, IconButton, Select } from '@chakra-ui/react';
+import { HamburgerIcon, AddIcon, ExternalLinkIcon, RepeatIcon, EditIcon } from '@chakra-ui/icons';
+import './Styles/NavBar.css';
 
 const NavBar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
   return (
-    <div className={`navbar ${isOpen ? 'open' : ''}`}>
-      <div className="icon-container">
-        <div className={`icon nav-icon-6 ${isOpen ? 'open' : ''}`} onClick={toggleMenu}>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        {isOpen && (
-          <div className={`item-list-container ${isOpen ? 'active' : ''}`}>
-            <div className={`bg-div ${isOpen ? 'active' : ''}`}></div>
-            <ul>
-              <li>Inicio</li>
-              <li>Productos</li>
-              <li>Contacto</li>
-            </ul>
-          </div>
-        )}
-      </div>
-      <img src={"./img/amarrilloLogoTipo.png"} alt="Logo de la Tienda" className="logo-tienda" />
+  <div className='navbar'>
+    <Menu>
+  <MenuButton 
+    color='#fdcb00'
+    borderColor='#fdcb00' 
+    size='lg'
+    as={IconButton}
+    aria-label='Options'
+    icon={<HamburgerIcon fontSize='2xl'/> }
+    variant='outline'
+  />
+  <MenuList color={'black'} bg={'#fdcb00'}>
+  
+    <Select placeholder='Categorias'>
+  <option value='option1'>Option 1</option>
+  <option value='option2'>Option 2</option>
+  <option value='option3'>Option 3</option>
+  </Select>
+    
+    <MenuItem icon={<ExternalLinkIcon />} command='⌘N'>
+      New Window
+    </MenuItem>
+    <MenuItem icon={<RepeatIcon />} command='⌘⇧N'>
+      Open Closed Tab
+    </MenuItem>
+    <MenuItem icon={<EditIcon />} command='⌘O'>
+      Open File...
+    </MenuItem>
+  </MenuList>
+</Menu>
+<img src={"./img/amarrilloLogoTipo.png"} alt="Logo de la Tienda" className="logo-tienda" />
       <div className="cart-widget">
       <CartWidget/>
       <p>(3)</p>
       </div>
-    </div>
-  );
-};
+</div>
+  )
+}
 
-export default NavBar;
+export default NavBar

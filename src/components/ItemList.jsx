@@ -1,4 +1,5 @@
 import React from 'react'
+import Item from './Item'
 
 const ItemList = ({ productos }) => {
   return (
@@ -6,9 +7,11 @@ const ItemList = ({ productos }) => {
         {
             productos.map((p)=> {
                 return(<div>
-<h1>{p.titulo}</h1>
-<p>{p.descripcion}</p>
-<p>${p.precio}</p>
+                <Item
+                titulo={p.titulo}
+                descripcion={p.descripcion}
+                precio={p.precio}
+                categoria={p.precio} />
                 </div>)
             })
         }
