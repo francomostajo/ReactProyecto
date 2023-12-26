@@ -3,9 +3,16 @@ import ItemList from './ItemList'
 
 const ItemListContainer = ({greeting}) => {
 
-const productos =[{titulo:"Lampara 1",descripcion:"este producto es expectacular",precio:"2000",categoria:"A"},
-                  {titulo:"Lampara 2",descripcion:"este producto es expectacular",precio:"3000",categoria:"B"},
-                  {titulo:"Lampara 3",descripcion:"este producto es expectacular",precio:"4000",categoria:"C"}
+const productos =[{ id: 1, titulo:"Lampara 1",descripcion:"este producto es expectacular",precio:"2000",categoria:"A"},
+                  { id: 2, titulo:"Lampara 2",descripcion:"este producto es expectacular",precio:"3000",categoria:"A"},
+                  { id: 3, titulo:"Lampara 3",descripcion:"este producto es expectacular",precio:"3000",categoria:"A"},
+                  { id: 4, titulo:"Lampara 4",descripcion:"este producto es expectacular",precio:"3000",categoria:"B"},
+                  { id: 5, titulo:"Lampara 5",descripcion:"este producto es expectacular",precio:"3000",categoria:"B"},
+                  { id: 6, titulo:"Lampara 6",descripcion:"este producto es expectacular",precio:"3000",categoria:"B"},
+                  { id: 7, titulo:"Lampara 7",descripcion:"este producto es expectacular",precio:"3000",categoria:"C"},
+                  { id: 8, titulo:"Lampara 8",descripcion:"este producto es expectacular",precio:"3000",categoria:"C"},
+                  { id: 9, titulo:"Lampara 9",descripcion:"este producto es expectacular",precio:"4000",categoria:"C"},
+                  { id: 10, titulo:"Lampara 10",descripcion:"este producto es expectacular",precio:"3000",categoria:"A"}
 ]
 const mostrarProductos = new Promise((resolve, reject) => {
   if(productos.length > 0){
