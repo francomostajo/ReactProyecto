@@ -1,8 +1,10 @@
 import React from 'react'
-import { Card, CardBody, Image, Stack, Heading, Text, Divider, ButtonGroup, Box } from '@chakra-ui/react';
+import { Card, CardBody, Image, Stack, Heading, Text, Divider, ButtonGroup, Box, Img, Center } from '@chakra-ui/react';
 import ItemCount from './ItemCount';
 
-const ItemDetail = ({ titulo, descripcion, precio, categoria, id }) => {
+
+const ItemDetail = ({ producto }) => {
+
     return (
       <Box
         maxW='sm'
@@ -10,26 +12,27 @@ const ItemDetail = ({ titulo, descripcion, precio, categoria, id }) => {
         borderWidth='1px'
         borderRadius='lg'
         overflow='hidden'
-        boxShadow='lg' // Cambié el color y la opacidad aquí
+        boxShadow='lg'
+        textAlign='center' // Cambié el color y la opacidad aquí
       >
         <Image
-          src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+          src={producto.img}
           alt='Green double couch with wooden legs'
           objectFit='cover'
-          h='200px'
+          h='full'
           w='full'
         />
-        <Box p='6'>
+        <Box p='6' bg='white'>
           <Stack spacing='3'>
-            <Heading size='md'>{titulo}</Heading>
-            <Text>{descripcion}</Text>
-            <Text color='blue.600' fontSize='2xl'>
-              ${precio}
+            <Heading size='md'>{producto.titulo}</Heading>
+            <Text>{producto.descripcion}</Text>
+            <Text color='#fdcb00' fontSize='4xl' fontWeight='bold' textShadow='1px 1px 3px rgba(0, 0, 0, 0.8)'>
+              ${producto.precio}
             </Text>
           </Stack>
         </Box>
         <Divider />
-        <Box p='6'>
+        <Box p='6'bg='white'>
           <ButtonGroup spacing='2'>
             <ItemCount />
           </ButtonGroup>

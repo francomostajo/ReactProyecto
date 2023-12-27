@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardBody, Image, Stack, Heading, Text, Divider, ButtonGroup,Button, Box } from '@chakra-ui/react';
-
-const Item = ({ titulo, descripcion, precio, categoria, id }) => {
+import { Link } from 'react-router-dom';
+const Item = ({ titulo, descripcion, precio, categoria, id, img }) => {
   return (
     <Box
       maxW='sm'
@@ -13,21 +13,25 @@ const Item = ({ titulo, descripcion, precio, categoria, id }) => {
       textAlign='center'
     >
       <Image
-        src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+        src={img}
         alt='Green double couch with wooden legs'
         objectFit='cover'
-        h='200px'
+        h='full'
         w='full'
       />
-      <Box p='6'>
+      <Box p='6' bg='white'>
         <Stack spacing='3'>
           <Heading size='md'>{titulo}</Heading>
         </Stack>
       </Box>
       <Divider />
-      <Box p='6'>
+      <Box p='6' bg='white'>
         <ButtonGroup spacing='2'>
-          <Button>Ver Detalles</Button>
+          <Button bg='#fdcb00' borderColor='#fdcb00'_hover={{ background: '#0f0f0fdc', color:'white'}}>
+            <Link to={`/producto/${id}`}>
+            Ver Detalles
+            </Link>
+            </Button>
         </ButtonGroup>
       </Box>
     </Box>
