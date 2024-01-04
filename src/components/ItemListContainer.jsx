@@ -1,13 +1,13 @@
-import React from 'react'
-import ItemList from './ItemList'
-import { useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import ItemList from './ItemList';
+import { useParams } from 'react-router-dom';
 
-const ItemListContainer = ({greeting}) => {
-
-const { categoriaId } = useParams()
-
-
-const productos =[{ id: 1, titulo:"Colgante Led Toronto",descripcion:"este producto es expectacular",precio:"2000",categoria:"colgantes",img:"https://http2.mlstatic.com/D_Q_NP_982664-MLA73161121488_122023-B.jpg"},
+const ItemListContainer = ({ greeting }) => {
+  const { categoriaId } = useParams();
+  const [productos, setProductos] = useState([]);
+  const pedirDatos = () => {
+    return new Promise((resolve) => {
+      const productos =[{ id: 1, titulo:"Colgante Led Toronto",descripcion:"este producto es expectacular",precio:"2000",categoria:"colgantes",img:"https://http2.mlstatic.com/D_Q_NP_982664-MLA73161121488_122023-B.jpg"},
                   { id: 2, titulo:"Colgante Led Trevor",descripcion:"este producto es expectacular",precio:"3000",categoria:"colgantes", img:"https://http2.mlstatic.com/D_Q_NP_836699-MLA72447009312_102023-B.jpg"},
                   { id: 3, titulo:"Lámpara Colgante Sofía Loren",descripcion:"este producto es expectacular",precio:"3000",categoria:"colgantes", img:"https://http2.mlstatic.com/D_Q_NP_971954-MLA54960289642_042023-B.jpg"},
                   { id: 4, titulo:"Aplique 2 Luces Oro",descripcion:"este producto es expectacular",precio:"3000",categoria:"pared", img:"https://http2.mlstatic.com/D_Q_NP_758990-MLA71429556422_092023-B.jpg"},
@@ -18,33 +18,26 @@ const productos =[{ id: 1, titulo:"Colgante Led Toronto",descripcion:"este produ
                   { id: 9, titulo:"Lampara De Mesa Atomo",descripcion:"este producto es expectacular",precio:"4000",categoria:"mesa", img:"https://http2.mlstatic.com/D_Q_NP_761064-MLA71657079717_092023-B.jpg"},
                   { id: 10, titulo:"Colgante Araña Explosión",descripcion:"este producto es expectacular",precio:"3000",categoria:"colgantes", img:"https://http2.mlstatic.com/D_Q_NP_870826-MLA53255702403_012023-B.jpg"}
 ]
-const mostrarProductos = new Promise((resolve, reject) => {
-  if(productos.length > 0){
-    setTimeout(()=>{
-      resolve(productos)
-    },3000)
-  }else{
-    reject("No se obtuvieron los productos")
-  }
-})
-mostrarProductos
-.then((resultado)=>{
-  console.log(resultado)
-})
-.catch((error) => {
-  console.log(error)
-})
+      setTimeout(() => {
+        resolve(productos);
+      }, 500);
+    });
+  };
 
-const productosFiltrados = productos.filter((producto)=> producto.categoria == categoriaId)
-console.log(productosFiltrados)
-return (
-  <div>
-    {
-      categoriaId ? <ItemList productos={productosFiltrados} />  : <ItemList productos={productos} />
-    }
-  </div>
-)
-}
+  useEffect(() => {
+    pedirDatos().then((res) => {
+      if (categoriaId) {
+        setProductos(res.filter((prod) => prod.categoria === categoriaId));
+      } else {
+        setProductos(res);
+      }
+    });
+  }, [categoriaId]);
 
-export default ItemListContainer
+  return <ItemList productos={productos} />;
+};
+
+export default ItemListContainer;
+
+
 

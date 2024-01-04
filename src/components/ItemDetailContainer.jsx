@@ -6,7 +6,7 @@ const ItemDetailContainer = () => {
     const { id } = useParams ()
 
 
-    const productos =[{ id: 1, titulo:"Colgante Led Toronto",descripcion:"este producto es expectacular",precio:"2000",categoria:"colgantes",img:"https://http2.mlstatic.com/D_Q_NP_982664-MLA73161121488_122023-B.jpg"},
+    const productos =[{ id: 1, titulo:"Colgante Led Toronto",descripcion:"Lámpara colgante negra",precio:"2000",categoria:"colgantes",img:"https://http2.mlstatic.com/D_Q_NP_982664-MLA73161121488_122023-B.jpg"},
     { id: 2, titulo:"Colgante Led Trevor",descripcion:"este producto es expectacular",precio:"3000",categoria:"colgantes", img:"https://http2.mlstatic.com/D_Q_NP_836699-MLA72447009312_102023-B.jpg"},
     { id: 3, titulo:"Lámpara Colgante Sofía Loren",descripcion:"este producto es expectacular",precio:"3000",categoria:"colgantes", img:"https://http2.mlstatic.com/D_Q_NP_971954-MLA54960289642_042023-B.jpg"},
     { id: 4, titulo:"Aplique 2 Luces Oro",descripcion:"este producto es expectacular",precio:"3000",categoria:"pared", img:"https://http2.mlstatic.com/D_Q_NP_758990-MLA71429556422_092023-B.jpg"},
