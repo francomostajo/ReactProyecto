@@ -1,29 +1,34 @@
-import { useState } from 'react';
+import React from 'react';
 import { Button, useToast } from '@chakra-ui/react';
+import { useShoppingCart } from './Context/ShoppingCartContext';
 
-const ItemCount = () => {
-  const [contador, setContador] = useState(0);
+const ItemCount = ({ product }) => {
+  const { addToCart } = useShoppingCart();
+  const [contador, setContador] = React.useState(0);
   const toast = useToast();
 
   const mostrarMensajeCarrito = () => {
-    const toastProductosAlCarrito = new Promise((resolve) => {
-      setTimeout(() => resolve(100), 1000);
-    });
+    if (contador > 0) {
+      addToCart({ ...product, quantity: contador });
 
-    toast.promise(toastProductosAlCarrito, {
-      success: {
+      toast({
         title: 'Productos agregados con éxito',
         description: `Contamos con ${contador} unidades, así que apúrate para finalizar la compra.`,
-      },
-      error: {
-        title: 'No se pudo realizar la compra',
-        description: `No contamos con suficiente stock de ${contador} unidades.`,
-      },
-      loading: {
-        title: `Agregando ${contador} unidades al carrito`,
-        description: 'Espere unos segundos, mientras verificamos stock.',
-      },
-    });
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+
+      setContador(0); // Mueve esta línea después de mostrar el toast
+    } else {
+      toast({
+        title: 'Error',
+        description: 'La cantidad no puede ser cero',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
 
   const sumar = () => {
