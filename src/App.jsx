@@ -5,7 +5,7 @@ import ItemListContainer from "./components/ItemListContainer";
 import './components/Styles/styleGlobal.jsx'; 
 import ItemDetailContainer from "./components/ItemDetailContainer";
 import Contacto from './components/Contacto';
-import Trolley from './components/Trolley';
+import Form from './components/Form.jsx';
 import LoaderComponents from './components/LoaderComponents';
 import { ShoppingCartProvider } from './components/Context/ShoppingCartContext.jsx'; // Importa el proveedor del contexto
 
@@ -33,7 +33,7 @@ const App = () => {
             <Routes>
               <Route exact path='/' element={<ItemListContainer />}/>
               <Route exact path='/contacto' element={<Contacto />}/>
-              <Route exact path='/carrito' element={<Trolley />}/>
+              <Route exact path='/carrito' element={<Form />}/>
               <Route exact path='/producto/:id' element={<ItemDetailContainer />}/>
               <Route exact path='/categoria/:categoriaId' element={<ItemListContainer />}/>
             </Routes>

@@ -8,8 +8,21 @@ const ShoppingCartProvider = ({ children }) => {
   const [cantidadPorProducto, setCantidadPorProducto] = useState({});
   const [precioTotal, setPrecioTotal] = useState(0);
 
+
   const addToCart = (product) => {
-    setCart((prevCart) => [...prevCart, product]);
+    const productoAgregado = cart.find((item) => item.id === product.id);
+
+    if (productoAgregado) {
+      // Si el producto ya está en el carrito, actualiza la cantidad
+      const updatedCart = cart.map((item) =>
+        item.id === productoAgregado.id ? { ...item, quantity: item.quantity + product.quantity } : item
+      );
+
+      setCart(updatedCart);
+    } else {
+      // Si el producto no está en el carrito, se agrega
+      setCart((prevCart) => [...prevCart, product]);
+    }
   };
 
   const removeFromCart = (productId) => {

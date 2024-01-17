@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Button, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter, useDisclosure } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import { useShoppingCart } from './Context/ShoppingCartContext'; // Importa el contexto del carrito
+import { useShoppingCart } from './Context/ShoppingCartContext'; 
 
 const CartWidget = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -52,9 +52,11 @@ const CartWidget = () => {
             )}
           </DrawerBody>
           <DrawerFooter>
+          <Link to={"/"}>
             <Button variant='outline' mr={3} onClick={onClose} color='#fdcb00'>
               Seguir comprando
             </Button>
+            </Link>
             <Link to='/carrito'>
               <Button colorScheme='blue' onClick={onClose}>
                 Finalizar Compra

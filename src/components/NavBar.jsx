@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import CartWidget from './CartWidget';
 import {
   Box,
@@ -20,10 +20,12 @@ import {
 import { HamburgerIcon, ChevronDownIcon  } from '@chakra-ui/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import './Styles/NavBar.css';
+import { useShoppingCart } from './Context/ShoppingCartContext'; 
 
 const NavBar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
+  const { cantidadTotal } = useShoppingCart();
 
   const categories = [
     { id: 1, name: 'Lámparas de Techo', link: '/categoria/colgantes' },
@@ -136,7 +138,9 @@ const NavBar = () => {
       <Link to={"/carrito"}>
         <div className="cart-widget">
           <CartWidget />
-          <p>(3)</p>
+          <p className="cart-circle" >
+            {cantidadTotal}
+          </p>
         </div>
       </Link>
     </div>
