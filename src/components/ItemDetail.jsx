@@ -22,7 +22,7 @@ const ItemDetail = ({ producto }) => {
       />
       <Box p='6' bg='white'>
         <Stack spacing='3'>
-          <Heading size='md'>{producto.titulo}</Heading>
+          <Heading size='md'>{producto.nombre}</Heading>
           <Text>{producto.descripcion}</Text>
           <Text color='#fdcb00' fontSize='4xl' fontWeight='bold' textShadow='1px 1px 3px rgba(0, 0, 0, 0.8)'>
             ${producto.precio}

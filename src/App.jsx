@@ -25,7 +25,7 @@ const App = () => {
     <BrowserRouter>
       <ShoppingCartProvider> {/* Envuelve tu aplicación con el proveedor del contexto */}
         <NavBar />
-        <div style={{ marginTop: '20px', padding: '20px', marginBottom: '20px' }}>
+        <div style={{ marginTop: '0px', padding: '0x', marginBottom: '0px' }}>
           {isLoading ? (
             <LoaderComponents />
           ) : (
@@ -35,7 +35,7 @@ const App = () => {
               <Route exact path='/contacto' element={<Contacto />}/>
               <Route exact path='/carrito' element={<Form />}/>
               <Route exact path='/producto/:id' element={<ItemDetailContainer />}/>
-              <Route exact path='/categoria/:categoriaId' element={<ItemListContainer />}/>
+              <Route exact path='/categoria/:categoryId' element={<ItemListContainer />} />
             </Routes>
           )}
         </div>

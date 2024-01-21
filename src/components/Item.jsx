@@ -27,11 +27,12 @@ const Item = ({ titulo, descripcion, precio, categoria, id, img }) => {
       <Divider />
       <Box p='6' bg='white'>
         <ButtonGroup spacing='2'>
-          <Button bg='#fdcb00' borderColor='#fdcb00'_hover={{ background: '#0f0f0fdc', color:'white'}}>
-            <Link to={`/producto/${id}`}>
+        <Button bg='#fdcb00' borderColor='#fdcb00' _hover={{ background: '#0f0f0fdc', color:'white'}}>
+          <Link to={`/producto/${id}`}>
             Ver Detalles
-            </Link>
-            </Button>
+          </Link>
+        </Button>
+{console.log('ID desde Item:', id)}
         </ButtonGroup>
       </Box>
     </Box>

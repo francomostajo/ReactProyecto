@@ -42,7 +42,7 @@ const CartWidget = () => {
               <ul>
                 {cart.map((item) => (
                   <li key={item.id}>
-                    {item.titulo} - Cantidad: {item.quantity} - Precio Unitario: ${item.precio} - Precio Total: ${calcularPrecioTotalItem(item)}
+                    {item.nombre} - Cantidad: {item.quantity} - Precio Unitario: ${item.precio} - Precio Total: ${calcularPrecioTotalItem(item)}
                   </li>
                 ))}
                 <hr />
