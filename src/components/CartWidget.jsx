@@ -1,13 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
-import { Button, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter, useDisclosure } from '@chakra-ui/react';
+import {
+  Button,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerHeader,
+  DrawerBody,
+  DrawerFooter,
+  useDisclosure,
+  VStack,
+  Stack,
+  Text,
+  Button as ChakraButton,
+} from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import { useShoppingCart } from './Context/ShoppingCartContext'; 
+import { useShoppingCart } from './Context/ShoppingCartContext';
+
+
 
 const CartWidget = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isHovered, setIsHovered] = useState(false);
-  const { cart, cantidadTotal, cantidadPorProducto, precioTotal, calcularPrecioTotalItem } = useShoppingCart(); // Obtén el estado del carrito desde el contexto
+  const { cart, cantidadTotal, cantidadPorProducto, precioTotal, calcularPrecioTotalItem, addToCart, removeFromCart  } = useShoppingCart();
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -19,6 +35,15 @@ const CartWidget = () => {
     onClose();
   };
 
+  const handleAddToCart = (productId) => {
+    console.log("Adding to cart:", productId);
+    addToCart({ id: productId, quantity: 1 });
+  };
+
+  const handleRemoveFromCart = (productId) => {
+    console.log("Removing from cart:", productId);
+    removeFromCart(productId);
+  };
   return (
     <div
       onMouseEnter={handleMouseEnter}
@@ -37,30 +62,42 @@ const CartWidget = () => {
           <DrawerHeader borderBottomWidth='2px'>Tu Carrito</DrawerHeader>
           <DrawerBody>
             {cart.length === 0 ? (
-              <p>El carrito está vacío</p>
+              <Text>El carrito está vacío</Text>
             ) : (
-              <ul>
+              <VStack spacing={4} align="start">
                 {cart.map((item) => (
-                  <li key={item.id}>
-                    {item.nombre} - Cantidad: {item.quantity} - Precio Unitario: ${item.precio} - Precio Total: ${calcularPrecioTotalItem(item)}
-                  </li>
+                  <Stack key={item.id} spacing={1}>
+                    <Text fontSize="lg">{item.nombre}</Text>
+                    <Text fontSize="md">
+                      Cantidad: {item.quantity} - Precio Unitario: ${item.precio} - Precio Total: ${calcularPrecioTotalItem(item)}
+                    </Text>
+                    <Stack direction="row">
+                      <Button backgroundColor='#fdcb00' size='xs' onClick={() => handleRemoveFromCart(item.id)}>
+                        -
+                      </Button>
+                      <Text>{item.quantity}</Text>
+                      <Button backgroundColor='#fdcb00' size='xs' onClick={() => handleAddToCart(item.id)}>
+                        +
+                      </Button>
+                    </Stack>
+                  </Stack>
                 ))}
                 <hr />
-                <li>Cantidad total en el carrito: {cantidadTotal}</li>
-                <li>Precio total de todos los productos: ${precioTotal}</li>
-              </ul>
+                <Text>Cantidad total en el carrito: {cantidadTotal}</Text>
+                <Text>Precio total de todos los productos: ${precioTotal}</Text>
+              </VStack>
             )}
           </DrawerBody>
           <DrawerFooter>
-          <Link to={"/"}>
-            <Button variant='outline' mr={3} onClick={onClose} color='#fdcb00'>
-              Seguir comprando
-            </Button>
+            <Link to={"/"}>
+              <Button variant='outline' mr={3} onClick={onClose} color='#fdcb00'>
+                Seguir comprando
+              </Button>
             </Link>
             <Link to='/carrito'>
-              <Button colorScheme='blue' onClick={onClose}>
+              <ChakraButton colorScheme='blue' onClick={onClose}>
                 Finalizar Compra
-              </Button>
+              </ChakraButton>
             </Link>
           </DrawerFooter>
         </DrawerContent>
@@ -70,3 +107,4 @@ const CartWidget = () => {
 };
 
 export default CartWidget;
+

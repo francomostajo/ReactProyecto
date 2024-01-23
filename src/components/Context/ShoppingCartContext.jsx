@@ -26,11 +26,22 @@ const ShoppingCartProvider = ({ children }) => {
   };
 
   const removeFromCart = (productId) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
+    setCart((prevCart) => {
+      const updatedCart = prevCart.map((item) =>
+        item.id === productId
+          ? { ...item, quantity: Math.max(item.quantity - 1, 0) }
+          : item
+      );
+
+      return updatedCart.filter((item) => item.quantity > 0);
+    });
   };
 
   const clearCart = () => {
     setCart([]);
+  };
+  const removeAllItem = (productId) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
   };
 
   const calcularPrecioTotalItem = (item) => {
@@ -60,7 +71,7 @@ const ShoppingCartProvider = ({ children }) => {
   }, [cart]);
 
   return (
-    <ShoppingCartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, cantidadTotal, cantidadPorProducto, precioTotal, calcularPrecioTotalItem }}>
+    <ShoppingCartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, cantidadTotal, cantidadPorProducto, precioTotal, calcularPrecioTotalItem, removeAllItem }}>
       {children}
     </ShoppingCartContext.Provider>
   );

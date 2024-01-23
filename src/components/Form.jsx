@@ -1,4 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useShoppingCart } from './Context/ShoppingCartContext';
+import { collection, addDoc, getFirestore } from 'firebase/firestore';
 import {
   VStack,
   FormControl,
@@ -16,49 +18,72 @@ import {
   AlertIcon,
   AlertTitle,
   AlertDescription,
+  Grid, 
+  GridItem,
+  // ... (otros imports de Chakra UI)
 } from '@chakra-ui/react';
+import ProductCardForm from './ProductCardForm'
 
 const Form = () => {
-  const initialFormData = {
+  const { cart, cantidadTotal, precioTotal, calcularPrecioTotalItem, clearCart } = useShoppingCart();
+  const [formData, setFormData] = useState({
     nombre: '',
     direccion: '',
     correo: '',
     numero: '',
-  };
-
-  const [formData, setFormData] = useState(initialFormData);
+  });
+  const [orderId, setOrderId] = useState(null);
+  const [error, setError] = useState(null);
   const [showOrderSummary, setShowOrderSummary] = useState(false);
-  const [orderNumber, setOrderNumber] = useState(null);
-  const [purchaseId, setPurchaseId] = useState(null);
-  const [error, setError] = useState(null); // Agregada variable de estado para manejar errores
-  const formRef = useRef(null);
+  const db = getFirestore();
+  
+  useEffect(() => {
+    if (orderId !== null) {
+      setShowOrderSummary(true);
+    }
+  }, [orderId]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      // Lógica para procesar el formulario, enviar datos, etc.
-      console.log('Datos del formulario:', formData);
+      // Validar que al menos haya un producto en el carrito
+      if (cart.length === 0) {
+        throw new Error('El carrito está vacío. Agregue al menos un producto antes de finalizar la compra.');
+      }
 
-      // Simular una operación asíncrona (puedes reemplazarlo con tu lógica real)
-      await new Promise((resolve, reject) => {
-        // Aquí puedes verificar condiciones y lanzar un error si es necesario
-        // Por ejemplo, podrías lanzar un error si algún campo está vacío
-        if (!formData.nombre || !formData.direccion || !formData.correo || !formData.numero) {
-          reject(new Error('Todos los campos son obligatorios.'));
-        }
+      // Validar que todos los campos obligatorios estén llenos
+      if (!formData.nombre || !formData.direccion || !formData.correo || !formData.numero) {
+        throw new Error('Todos los campos son obligatorios.');
+      }
 
-        // Si todo está bien, resuelve la promesa
-        resolve();
-      });
+      // Lógica para enviar datos a Firebase
+      const ordersCollection = collection(db, 'orders');
 
-      // Generar un número ficticio de pedido (puedes reemplazarlo con lógica real)
-      const generatedOrderNumber = Math.floor(Math.random() * 1000) + 1;
-      setOrderNumber(generatedOrderNumber);
+      // Crear un documento con la información del carrito y los detalles del cliente
+      const order = {
+        cliente: {
+          nombre: formData.nombre,
+          direccion: formData.direccion,
+          correo: formData.correo,
+          numero: formData.numero,
+        },
+        carrito: cart,
+        cantidadTotal: cantidadTotal,
+        precioTotal: precioTotal,
+      };
+
+      // Enviar datos a Firebase
+      const docRef = await addDoc(ordersCollection, order);
+
+      // Establecer el ID de la orden para mostrar al usuario
+      setOrderId(docRef.id);
+
+      // Limpiar el carrito después de completar la orden
+      clearCart();
 
       // Mostrar el resumen del pedido
-      setShowOrderSummary(true);
-      setError(null); // Limpiar el mensaje de error en caso de éxito
+      setError(null);
     } catch (error) {
       // Capturar el error y mostrar la alerta
       setError(error.message);
@@ -78,62 +103,52 @@ const Form = () => {
     setShowOrderSummary(false);
 
     // Resetear el formulario después de cerrar el resumen
-    setFormData(initialFormData);
-    formRef.current.reset();
+    setFormData({
+      nombre: '',
+      direccion: '',
+      correo: '',
+      numero: '',
+    });
 
     // Actualizar el número de pedido en el mensaje de agradecimiento
-    setPurchaseId(orderNumber);
+    setOrderId(null);
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} ref={formRef}>
-        <VStack spacing={10} align="stretch">
-          <FormControl>
-            <FormLabel>Nombre y Apellido</FormLabel>
-            <Input
-              type="text"
-              name="nombre"
-              placeholder="Ingrese su nombre y apellido"
-              value={formData.nombre}
-              onChange={handleChange}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Dirección</FormLabel>
-            <Input
-              type="text"
-              name="direccion"
-              placeholder="Ingrese su dirección"
-              value={formData.direccion}
-              onChange={handleChange}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Número</FormLabel>
-            <Input
-              type="number"
-              name="numero"
-              placeholder="Ingrese su numero"
-              value={formData.numero}
-              onChange={handleChange}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Correo Electrónico</FormLabel>
-            <Input
-              type="email"
-              name="correo"
-              placeholder="Ingrese su correo electrónico"
-              value={formData.correo}
-              onChange={handleChange}
-            />
-          </FormControl>
-          <Button type="submit" colorScheme="blue">
-            Finalizar Compra
-          </Button>
-        </VStack>
-      </form>
+    <>
+      <Grid templateColumns='repeat(2, 1fr)' gap={4}>
+        <GridItem colSpan={1}>
+          <VStack align='stretch' spacing={4}>
+            {/* Iterar sobre el carrito y mostrar ProductCard */}
+            {cart.map((item) => (
+              <ProductCardForm key={item.id} product={item} calcularPrecioTotalItem={calcularPrecioTotalItem} />
+            ))}
+          </VStack>
+        </GridItem>
+        <GridItem colSpan={1}>
+          <form onSubmit={handleSubmit}>
+            <FormControl>
+              <FormLabel>Nombre y Apellido</FormLabel>
+              <Input type="text" name="nombre" placeholder="Ingrese su nombre y apellido" onChange={handleChange} value={formData.nombre} />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Dirección</FormLabel>
+              <Input type="text" name="direccion" placeholder="Ingrese su dirección" onChange={handleChange} value={formData.direccion} />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Número</FormLabel>
+              <Input type="number" name="numero" placeholder="Ingrese su número" onChange={handleChange} value={formData.numero} />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Correo Electrónico</FormLabel>
+              <Input type="email" name="correo" placeholder="Ingrese su correo electrónico" onChange={handleChange} value={formData.correo} />
+            </FormControl>
+            <Button type="submit" colorScheme="blue">
+              Finalizar Compra
+            </Button>
+          </form>
+        </GridItem>
+      </Grid>
 
       {/* Mostrar la alerta en caso de error */}
       {error && (
@@ -145,33 +160,38 @@ const Form = () => {
       )}
 
       {/* Resumen del Pedido */}
-      <AlertDialog isOpen={showOrderSummary} onClose={handleOrderSummaryClose}>
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Resumen del Pedido
-            </AlertDialogHeader>
-            <AlertDialogBody>
-              {/* Mostrar los datos del cliente */}
-              <p>Nombre: {formData.nombre}</p>
-              <p>Dirección: {formData.direccion}</p>
-              <p>Número: {formData.numero}</p>
-              <p>Correo Electrónico: {formData.correo}</p>
+      <AlertDialog isOpen={showOrderSummary} onClose={handleOrderSummaryClose} size="lg">
+        <AlertDialogOverlay />
+        <AlertDialogContent bg="#0f0f0fdc" color="#fff" borderRadius="5px">
+          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+            Resumen del Pedido
+          </AlertDialogHeader>
+          <AlertDialogBody>
+            <ul>
+              {cart.map((item) => (
+                <li key={item.id}>
+                  {item.nombre} - Cantidad: {item.quantity} - Precio Unitario: ${item.precio} - Precio Total: ${calcularPrecioTotalItem(item)}
+                </li>
+              ))}
+              <hr />
+              <li>Cantidad total en el carrito: {cantidadTotal}</li>
+              <li>Precio total de todos los productos: ${precioTotal}</li>
+              <li>Nombre: {formData.nombre}</li>
+              <li>Dirección: {formData.direccion}</li>
+              <li>Número: {formData.numero}</li>
+              <li>Correo Electrónico: {formData.correo}</li>
               {/* Mostrar el mensaje del pedido */}
-              <p>Su número de pedido es: {orderNumber}</p>
-            </AlertDialogBody>
-            <AlertDialogFooter>
-              <Button onClick={handleOrderSummaryClose} colorScheme="blue">
-                OK
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
+              <p>Su número de pedido es: {orderId}</p>
+            </ul>
+          </AlertDialogBody>
+          <AlertDialogFooter>
+            <Button onClick={handleOrderSummaryClose} colorScheme="blue">
+              OK
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
       </AlertDialog>
-      <Text>
-        {`Gracias por tu compra, tu número de pedido es: ${purchaseId}`}
-      </Text>
-    </div>
+    </>
   );
 };
 

@@ -1,10 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import ItemList from './ItemList';
 import { useParams } from 'react-router-dom';
-import { collection, getDocs, getFirestore } from "firebase/firestore"
+import { collection, addDoc, getFirestore } from "firebase/firestore"
+import { EmailIcon } from '@chakra-ui/icons';
 
 const repaso = () => {
-  /* ITEM DETAIL CONTEINER*/
+
+  const [nombre, setNombre] = useState("")
+  const [email, setEmail] = useState("")
+  const [orderId, setOrderID] = useState("")
+  const db = getFirestore()
+
+  const handleSubmit=(e)=>{
+    e.preventDefault()
+    addDoc(ordersCollection, order).then(({id})=>
+    setOrderId(id))
+    }
+    const order = {
+      nombre,
+      email
+    }
+    const  ordersCollection = collection(db, "orden")
+      console.log("enviado")
+
+  nombre
+  email
+  orderId
+  return (
+    <div>
+      <form action="" n Submit={handleSubmit}>
+        <input type="text" placeholder='Nombre' onChange={(e)=> setNombre(e.target.value)} value={nombre}/>
+        <input type="email" placeholder='Correo'onChange={(e)=> setEmail(e.target.value)} value={email} />
+        <button type='submit'>Enviar </button>
+      </form>
+      <p>{orderId}</p>
+    </div>
+  )
+  /* ITEM DETAIL CONTEINER
       const { id }= useParams()
       const [product, setProducts] = useState([])
       useEffect(()=>{
@@ -24,7 +56,8 @@ return(
     Producto: {product.nombre}
     precio: {product.precio}
   </div>
-)
+) 
+
   /* ITEM LIST CONTEINER*/
 /*     const [products, setProducts] = useState([])
     useEffect(() =>{
