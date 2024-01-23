@@ -36,13 +36,23 @@ const CartWidget = () => {
   };
 
   const handleAddToCart = (productId) => {
-    console.log("Adding to cart:", productId);
     addToCart({ id: productId, quantity: 1 });
+    localStorage.setItem('cart', JSON.stringify(cart));
   };
-
+  
   const handleRemoveFromCart = (productId) => {
-    console.log("Removing from cart:", productId);
     removeFromCart(productId);
+    localStorage.setItem('cart', JSON.stringify(cart));
+  };
+  
+  const handleClearCart = () => {
+    clearCart();
+    localStorage.setItem('cart', JSON.stringify(cart));
+  };
+  
+  const handleRemoveAllItem = (productId) => {
+    removeAllItem(productId);
+    localStorage.setItem('cart', JSON.stringify(cart));
   };
   return (
     <div
@@ -61,34 +71,38 @@ const CartWidget = () => {
           <DrawerCloseButton />
           <DrawerHeader borderBottomWidth='2px'>Tu Carrito</DrawerHeader>
           <DrawerBody>
-            {cart.length === 0 ? (
-              <Text>El carrito está vacío</Text>
-            ) : (
-              <VStack spacing={4} align="start">
-                {cart.map((item) => (
-                  <Stack key={item.id} spacing={1}>
-                    <Text fontSize="lg">{item.nombre}</Text>
-                    <Text fontSize="md">
-                      Cantidad: {item.quantity} - Precio Unitario: ${item.precio} - Precio Total: ${calcularPrecioTotalItem(item)}
-                    </Text>
-                    <Stack direction="row">
-                      <Button backgroundColor='#fdcb00' size='xs' onClick={() => handleRemoveFromCart(item.id)}>
-                        -
-                      </Button>
-                      <Text>{item.quantity}</Text>
-                      <Button backgroundColor='#fdcb00' size='xs' onClick={() => handleAddToCart(item.id)}>
-                        +
-                      </Button>
-                    </Stack>
-                  </Stack>
-                ))}
-                <hr />
-                <Text>Cantidad total en el carrito: {cantidadTotal}</Text>
-                <Text>Precio total de todos los productos: ${precioTotal}</Text>
-              </VStack>
-            )}
-          </DrawerBody>
-          <DrawerFooter>
+                {cart.length === 0 ? (
+                  <Text>El carrito está vacío</Text>
+                ) : (
+                  <VStack spacing={4} align="start">
+                    {cart.map((item) => (
+                      <Stack key={item.id} spacing={1}>
+                        <Text fontSize="lg">{item.nombre}</Text>
+                        <Text fontSize="md">
+                          Cantidad: {item.quantity} - Precio Unitario: ${item.precio} - Precio Total: ${calcularPrecioTotalItem(item)}
+                        </Text>
+                        <Stack direction="row">
+                          <Button backgroundColor='#fdcb00' size='xs' onClick={() => handleRemoveFromCart(item.id)}>
+                            -
+                          </Button>
+                          <Text>{item.quantity}</Text>
+                          <Button backgroundColor='#fdcb00' size='xs' onClick={() => handleAddToCart(item.id)}>
+                            +
+                          </Button>
+                        </Stack>
+                      </Stack>
+                    ))}
+                    <hr />
+                    {cart.length > 0 && (
+                      <>
+                        <Text>Cantidad total en el carrito: {cantidadTotal}</Text>
+                        <Text>Precio total de todos los productos: ${precioTotal}</Text>
+                      </>
+                    )}
+                  </VStack>
+                )}
+              </DrawerBody>
+            <DrawerFooter>
             <Link to={"/"}>
               <Button variant='outline' mr={3} onClick={onClose} color='#fdcb00'>
                 Seguir comprando

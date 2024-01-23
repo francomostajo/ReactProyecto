@@ -8,6 +8,16 @@ const ShoppingCartProvider = ({ children }) => {
   const [cantidadPorProducto, setCantidadPorProducto] = useState({});
   const [precioTotal, setPrecioTotal] = useState(0);
 
+  // Efecto secundario para cargar carrito desde localStorage al inicio
+  useEffect(() => {
+    const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+    setCart(storedCart);
+  }, []);
+
+  // Efecto secundario para guardar carrito en localStorage cada vez que cambie
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
 
   const addToCart = (product) => {
     const productoAgregado = cart.find((item) => item.id === product.id);
@@ -40,6 +50,7 @@ const ShoppingCartProvider = ({ children }) => {
   const clearCart = () => {
     setCart([]);
   };
+
   const removeAllItem = (productId) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
   };
@@ -71,7 +82,19 @@ const ShoppingCartProvider = ({ children }) => {
   }, [cart]);
 
   return (
-    <ShoppingCartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, cantidadTotal, cantidadPorProducto, precioTotal, calcularPrecioTotalItem, removeAllItem }}>
+    <ShoppingCartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        clearCart,
+        cantidadTotal,
+        cantidadPorProducto,
+        precioTotal,
+        calcularPrecioTotalItem,
+        removeAllItem,
+      }}
+    >
       {children}
     </ShoppingCartContext.Provider>
   );

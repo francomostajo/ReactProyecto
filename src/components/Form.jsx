@@ -22,7 +22,7 @@ import {
   GridItem,
   // ... (otros imports de Chakra UI)
 } from '@chakra-ui/react';
-import ProductCardForm from './ProductCardForm'
+import ProductCardForm from './ProductCardForm';
 
 const Form = () => {
   const { cart, cantidadTotal, precioTotal, calcularPrecioTotalItem, clearCart } = useShoppingCart();
@@ -35,6 +35,8 @@ const Form = () => {
   const [orderId, setOrderId] = useState(null);
   const [error, setError] = useState(null);
   const [showOrderSummary, setShowOrderSummary] = useState(false);
+  const [tempTotalAmount, setTempTotalAmount] = useState(0);
+  const [tempTotalPrice, setTempTotalPrice] = useState(0);
   const db = getFirestore();
   
   useEffect(() => {
@@ -42,6 +44,14 @@ const Form = () => {
       setShowOrderSummary(true);
     }
   }, [orderId]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -79,6 +89,10 @@ const Form = () => {
       // Establecer el ID de la orden para mostrar al usuario
       setOrderId(docRef.id);
 
+      // Guardar temporalmente la cantidad y precio totales antes de limpiar el carrito
+      setTempTotalAmount(cantidadTotal);
+      setTempTotalPrice(precioTotal);
+
       // Limpiar el carrito después de completar la orden
       clearCart();
 
@@ -90,28 +104,18 @@ const Form = () => {
     }
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
+  // Restablecer temporalmente la cantidad y precio totales al cerrar el resumen del pedido
   const handleOrderSummaryClose = () => {
-    // Cerrar el resumen del pedido
     setShowOrderSummary(false);
-
-    // Resetear el formulario después de cerrar el resumen
+    setTempTotalAmount(0);
+    setTempTotalPrice(0);
+    setOrderId(null);
     setFormData({
       nombre: '',
       direccion: '',
       correo: '',
       numero: '',
     });
-
-    // Actualizar el número de pedido en el mensaje de agradecimiento
-    setOrderId(null);
   };
 
   return (
@@ -174,8 +178,8 @@ const Form = () => {
                 </li>
               ))}
               <hr />
-              <li>Cantidad total en el carrito: {cantidadTotal}</li>
-              <li>Precio total de todos los productos: ${precioTotal}</li>
+              <li>Cantidad total en el carrito: {tempTotalAmount}</li>
+              <li>Precio total de todos los productos: ${tempTotalPrice}</li>
               <li>Nombre: {formData.nombre}</li>
               <li>Dirección: {formData.direccion}</li>
               <li>Número: {formData.numero}</li>
