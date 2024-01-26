@@ -7,8 +7,10 @@ _La base de mi proyecto se construye sobre **React**, aprovechando la eficiencia
 https://github.com/francomostajo/ReactProyecto/assets/137458693/60574ad5-6a15-413e-9f07-7751160423cb
 
 ---
- ##### __React + Chakra UI__  <img src="{https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black}" />
- ##### __Firebase__ 
+ #### __React + Chakra UI__  
+
+
+ #### __Firebase__ 
 ---
 
 - **Explora con Intuitividad:**
@@ -30,3 +32,5 @@ Optimicé la manipulación de datos en la nube con funciones asíncronas, para m
 - **Base para el Futuro:**
 
 Planifiqué el proyecto con miras a futuras expansiones, tales como la creación de una portada personalizada, la incorporación de características mejoradas, la ampliación del catálogo con secciones específicas para ofertas, la implementación de un sistema de inicio de sesión para recopilar datos de pedido y la posibilidad de almacenar tanto los pedidos del cliente como su información personal de manera segura y eficiente.
+
+[def]: https://camo.githubusercontent.com/802cbace6c340bba46fa32668aa758d43a7bca881026b1affbd7579cb413718d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f52656163742d2532333230323332612e7376673f6c6f676f3d7265616374266c6f676f436f6c6f723d253233363144414642
