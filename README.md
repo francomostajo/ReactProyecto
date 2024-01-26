@@ -7,8 +7,8 @@ _La base de mi proyecto se construye sobre **React**, aprovechando la eficiencia
 https://github.com/francomostajo/ReactProyecto/assets/137458693/60574ad5-6a15-413e-9f07-7751160423cb
 
 ---
- ###### __React + Chakra UI__  
- ###### __Firebase__ 
+ ##### __React + Chakra UI__  <img src="{https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black}" />
+ ##### __Firebase__ 
 ---
 
 - **Explora con Intuitividad:**
