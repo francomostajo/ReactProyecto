@@ -3,8 +3,9 @@
 Tienda de iluminación - Proyecto 
 
 
+![0126](https://github.com/francomostajo/ReactProyecto/assets/137458693/9fe7f65d-7a04-469c-8cec-bd58037168d8)
 
-https://github.com/francomostajo/ReactProyecto/assets/137458693/e4a8c13e-c782-44f0-801e-76c3ce1ac127
+
 
 
 
