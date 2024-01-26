@@ -38,12 +38,10 @@ const Form = () => {
   const [tempTotalAmount, setTempTotalAmount] = useState(0);
   const [tempTotalPrice, setTempTotalPrice] = useState(0);
   const db = getFirestore();
-
-  // Mueve el useEffect al nivel superior del componente
+  
   useEffect(() => {
     if (orderId !== null) {
       setShowOrderSummary(true);
-      console.log('orderId:', orderId); // Asegúrate de que este console.log esté aquí
     }
   }, [orderId]);
 
@@ -55,8 +53,8 @@ const Form = () => {
     }));
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
     try {
       // Validar que al menos haya un producto en el carrito
@@ -69,11 +67,9 @@ const Form = () => {
         throw new Error('Todos los campos son obligatorios.');
       }
 
-      // Lógica para enviar datos a Firebase
-      const ordersCollection = collection(db, 'orders');
+      const ordenesCollection = collection(db, 'ordenes');
 
-      // Crear un documento con la información del carrito y los detalles del cliente
-      const order = {
+      const orden = {
         cliente: {
           nombre: formData.nombre,
           direccion: formData.direccion,
@@ -86,22 +82,20 @@ const Form = () => {
       };
 
       // Enviar datos a Firebase
-      const docRef = await addDoc(ordersCollection, order);
+      addDoc(ordenesCollection, orden)
+        .then((docRef) => {
+          setOrderId(docRef.id);
 
-      // Establecer el ID de la orden para mostrar al usuario
-      setOrderId(docRef.id);
+          setTempTotalAmount(cantidadTotal);
 
-      // Guardar temporalmente la cantidad y precio totales antes de limpiar el carrito
-      setTempTotalAmount(cantidadTotal);
-      setTempTotalPrice(precioTotal);
+          setTempTotalPrice(precioTotal);
 
-      // Limpiar el carrito después de completar la orden
-      clearCart();
+          clearCart();
 
-      // Mostrar el resumen del pedido
-      setError(null);
+          setError(null);
+        });
     } catch (error) {
-      // Capturar el error y mostrar la alerta
+
       setError(error.message);
     }
   };
@@ -119,7 +113,6 @@ const Form = () => {
     });
   };
 
-  console.log('Valor de orderId:', orderId);
   return (
     <>
       <Grid templateColumns='repeat(2, 1fr)' gap={4} align='center'>
@@ -161,7 +154,6 @@ const Form = () => {
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
-      {/* Resumen del Pedido */}
         <AlertDialog isOpen={showOrderSummary} onClose={handleOrderSummaryClose} size="lg">
           <AlertDialogOverlay />
           <AlertDialogContent bg="#0f0f0fdc" color="#fff" borderRadius="5px">
@@ -182,7 +174,6 @@ const Form = () => {
                 <li>Dirección: {formData.direccion}</li>
                 <li>Número: {formData.numero}</li>
                 <li>Correo Electrónico: {formData.correo}</li>
-                {/* Mostrar el mensaje del pedido */}
                 <p>Su número de pedido es: {orderId}</p>
               </ul>
             </AlertDialogBody>
@@ -194,7 +185,6 @@ const Form = () => {
           </AlertDialogContent>
         </AlertDialog>
     </>
-    
   );
 };
 

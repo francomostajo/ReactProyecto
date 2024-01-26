@@ -36,8 +36,6 @@ const ItemDetailContainer = () => {
     fetchProduct();
   }, [id]);
 
-  console.log('Product:', product);
-
   return (
     <div>
       {loading ? (
