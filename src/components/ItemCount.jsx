@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, useToast } from '@chakra-ui/react';
 import { useShoppingCart } from './Context/ShoppingCartContext';
 
 const ItemCount = ({ product }) => {
   const { addToCart } = useShoppingCart();
-  const [contador, setContador] = React.useState(0);
+  const [contador, setContador] = useState(0);
   const toast = useToast();
 
   const mostrarMensajeCarrito = () => {

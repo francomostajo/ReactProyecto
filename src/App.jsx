@@ -11,19 +11,17 @@ import { ShoppingCartProvider } from './components/Context/ShoppingCartContext.j
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     const fetchData = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      setIsLoading(false); // Una vez que la carga está completa, establece isLoading en false
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      setIsLoading(false);
     };
 
     fetchData();
-  }, []); // El efecto se ejecutará solo una vez al montar el componente
-
+  }, []); 
   return (
     <BrowserRouter>
-      <ShoppingCartProvider> {/* Envuelve tu aplicación con el proveedor del contexto */}
+      <ShoppingCartProvider>
         <NavBar />
         <div style={{ marginTop: '0px', padding: '0x', marginBottom: '0px' }}>
           {isLoading ? (

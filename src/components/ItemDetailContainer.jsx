@@ -23,23 +23,25 @@ const ItemDetailContainer = () => {
           if (productSnapshot.exists()) {
             const productData = { ...productSnapshot.data(), id: productSnapshot.id };
             setProduct(productData);
-            setLoading(false); // Indicar que la carga ha terminado
-            break; // Terminar la búsqueda una vez que se ha encontrado el producto
+            setLoading(false);
+            break; 
           }
         }
       } catch (error) {
         console.error('Error al obtener el producto:', error);
-        setLoading(false); // Indicar que la carga ha terminado incluso si hay un error
+        setLoading(false); 
       }
     };
   
     fetchProduct();
   }, [id]);
+
   console.log('Product:', product);
+
   return (
     <div>
       {loading ? (
-        <LoaderComponents/>
+        <LoaderComponents />
       ) : (
         <ItemDetail producto={product} />
       )}

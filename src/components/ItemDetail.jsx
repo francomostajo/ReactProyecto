@@ -4,22 +4,8 @@ import ItemCount from './ItemCount';
 
 const ItemDetail = ({ producto }) => {
   return (
-    <Box
-      maxW='sm'
-      w='full'
-      borderWidth='1px'
-      borderRadius='lg'
-      overflow='hidden'
-      boxShadow='lg'
-      textAlign='center'
-    >
-      <Image
-        src={producto.img}
-        alt={producto.titulo}
-        objectFit='cover'
-        h='full'
-        w='full'
-      />
+    <Box maxW='sm' w='full' borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='lg' textAlign='center'>
+      <Image src={producto.img} alt={producto.titulo} objectFit='cover' h='full' w='full'/>
       <Box p='6' bg='white'>
         <Stack spacing='3'>
           <Heading size='md'>{producto.nombre}</Heading>

@@ -38,10 +38,12 @@ const Form = () => {
   const [tempTotalAmount, setTempTotalAmount] = useState(0);
   const [tempTotalPrice, setTempTotalPrice] = useState(0);
   const db = getFirestore();
-  
+
+  // Mueve el useEffect al nivel superior del componente
   useEffect(() => {
     if (orderId !== null) {
       setShowOrderSummary(true);
+      console.log('orderId:', orderId); // Asegúrate de que este console.log esté aquí
     }
   }, [orderId]);
 
@@ -104,7 +106,6 @@ const Form = () => {
     }
   };
 
-  // Restablecer temporalmente la cantidad y precio totales al cerrar el resumen del pedido
   const handleOrderSummaryClose = () => {
     setShowOrderSummary(false);
     setTempTotalAmount(0);
@@ -118,43 +119,41 @@ const Form = () => {
     });
   };
 
+  console.log('Valor de orderId:', orderId);
   return (
     <>
-      <Grid templateColumns='repeat(2, 1fr)' gap={4}>
-        <GridItem colSpan={1}>
-          <VStack align='stretch' spacing={4}>
-            {/* Iterar sobre el carrito y mostrar ProductCard */}
-            {cart.map((item) => (
-              <ProductCardForm key={item.id} product={item} calcularPrecioTotalItem={calcularPrecioTotalItem} />
-            ))}
-          </VStack>
+      <Grid templateColumns='repeat(2, 1fr)' gap={4} align='center'>
+        <GridItem colSpan={1} padding={4} margin="auto" textAlign="center"> 
+            <VStack align='stretch' spacing={4}>
+              {cart.map((item) => (
+                <ProductCardForm key={item.id} product={item} calcularPrecioTotalItem={calcularPrecioTotalItem} />
+              ))}
+            </VStack>
         </GridItem>
-        <GridItem colSpan={1}>
-          <form onSubmit={handleSubmit}>
-            <FormControl>
-              <FormLabel>Nombre y Apellido</FormLabel>
-              <Input type="text" name="nombre" placeholder="Ingrese su nombre y apellido" onChange={handleChange} value={formData.nombre} />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Dirección</FormLabel>
-              <Input type="text" name="direccion" placeholder="Ingrese su dirección" onChange={handleChange} value={formData.direccion} />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Número</FormLabel>
-              <Input type="number" name="numero" placeholder="Ingrese su número" onChange={handleChange} value={formData.numero} />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Correo Electrónico</FormLabel>
-              <Input type="email" name="correo" placeholder="Ingrese su correo electrónico" onChange={handleChange} value={formData.correo} />
-            </FormControl>
-            <Button type="submit" colorScheme="blue">
-              Finalizar Compra
-            </Button>
-          </form>
+        <GridItem colSpan={1} align='center'>
+            <form onSubmit={handleSubmit} style={{ width: '900%', maxWidth: '900px', backdropFilter: 'blur(1.5px)',backgroundColor: 'rgba(0, 0, 0, 0.3)', borderRadius: '10px'}}>
+              <FormControl>
+                <FormLabel color="white" fontWeight="bold" fontSize="2xl" margin="10">Nombre y Apellido</FormLabel>
+                <Input type="text" name="nombre" placeholder="Ingrese su nombre y apellido" onChange={handleChange} value={formData.nombre} fontSize="2xl" color="white" />
+              </FormControl>
+              <FormControl>
+                <FormLabel color="white" fontWeight="bold" fontSize="2xl" margin="10">Dirección</FormLabel>
+                <Input type="text" name="direccion" placeholder="Ingrese su dirección" onChange={handleChange} value={formData.direccion} fontSize="2xl" color="white" />
+              </FormControl>
+              <FormControl>
+                <FormLabel color="white" fontWeight="bold" fontSize="2xl" margin="10">Número</FormLabel>
+                <Input type="number" name="numero" placeholder="Ingrese su número" onChange={handleChange} value={formData.numero} fontSize="2xl" color="white" />
+              </FormControl>
+              <FormControl>
+                <FormLabel color="white" fontWeight="bold" fontSize="2xl" margin="10">Correo Electrónico</FormLabel>
+                <Input type="email" name="correo" placeholder="Ingrese su correo electrónico" onChange={handleChange} value={formData.correo} fontSize="2xl" color="white" />
+              </FormControl>
+              <Button bg='#fdcb00' borderColor='#fdcb00' _hover={{ background: '#0f0f0fdc', color:'white'}} type="submit" colorScheme="blue" size="lg" mt={20}>
+                  Finalizar Compra 
+              </Button>
+            </form>
         </GridItem>
       </Grid>
-
-      {/* Mostrar la alerta en caso de error */}
       {error && (
         <Alert status="error">
           <AlertIcon />
@@ -162,40 +161,40 @@ const Form = () => {
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
-
       {/* Resumen del Pedido */}
-      <AlertDialog isOpen={showOrderSummary} onClose={handleOrderSummaryClose} size="lg">
-        <AlertDialogOverlay />
-        <AlertDialogContent bg="#0f0f0fdc" color="#fff" borderRadius="5px">
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Resumen del Pedido
-          </AlertDialogHeader>
-          <AlertDialogBody>
-            <ul>
-              {cart.map((item) => (
-                <li key={item.id}>
-                  {item.nombre} - Cantidad: {item.quantity} - Precio Unitario: ${item.precio} - Precio Total: ${calcularPrecioTotalItem(item)}
-                </li>
-              ))}
-              <hr />
-              <li>Cantidad total en el carrito: {tempTotalAmount}</li>
-              <li>Precio total de todos los productos: ${tempTotalPrice}</li>
-              <li>Nombre: {formData.nombre}</li>
-              <li>Dirección: {formData.direccion}</li>
-              <li>Número: {formData.numero}</li>
-              <li>Correo Electrónico: {formData.correo}</li>
-              {/* Mostrar el mensaje del pedido */}
-              <p>Su número de pedido es: {orderId}</p>
-            </ul>
-          </AlertDialogBody>
-          <AlertDialogFooter>
-            <Button onClick={handleOrderSummaryClose} colorScheme="blue">
-              OK
-            </Button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+        <AlertDialog isOpen={showOrderSummary} onClose={handleOrderSummaryClose} size="lg">
+          <AlertDialogOverlay />
+          <AlertDialogContent bg="#0f0f0fdc" color="#fff" borderRadius="5px">
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Resumen del Pedido
+            </AlertDialogHeader>
+            <AlertDialogBody>
+              <ul>
+                {cart.map((item) => (
+                  <li key={item.id}>
+                    {item.nombre} - Cantidad: {item.quantity} - Precio Unitario: ${item.precio} - Precio Total: ${calcularPrecioTotalItem(item)}
+                  </li>
+                ))}
+                <hr />
+                <li>Cantidad total en el carrito: {tempTotalAmount}</li>
+                <li>Precio total de todos los productos: ${tempTotalPrice}</li>
+                <li>Nombre: {formData.nombre}</li>
+                <li>Dirección: {formData.direccion}</li>
+                <li>Número: {formData.numero}</li>
+                <li>Correo Electrónico: {formData.correo}</li>
+                {/* Mostrar el mensaje del pedido */}
+                <p>Su número de pedido es: {orderId}</p>
+              </ul>
+            </AlertDialogBody>
+            <AlertDialogFooter>
+              <Button onClick={handleOrderSummaryClose} colorScheme="blue">
+                OK
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
     </>
+    
   );
 };
 

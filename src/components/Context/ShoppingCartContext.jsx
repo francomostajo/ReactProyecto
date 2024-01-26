@@ -82,19 +82,7 @@ const ShoppingCartProvider = ({ children }) => {
   }, [cart]);
 
   return (
-    <ShoppingCartContext.Provider
-      value={{
-        cart,
-        addToCart,
-        removeFromCart,
-        clearCart,
-        cantidadTotal,
-        cantidadPorProducto,
-        precioTotal,
-        calcularPrecioTotalItem,
-        removeAllItem,
-      }}
-    >
+    <ShoppingCartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, cantidadTotal, cantidadPorProducto, precioTotal, calcularPrecioTotalItem, removeAllItem,}}>
       {children}
     </ShoppingCartContext.Provider>
   );

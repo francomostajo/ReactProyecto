@@ -16,9 +16,13 @@ import {
   Button as CardButton,
   Card,
   Image,
-  Text
+  Text,
+  List,
+  ListItem,
+  ListIcon,
 } from '@chakra-ui/react';
 import { useShoppingCart } from './Context/ShoppingCartContext';
+import { CheckIcon } from '@chakra-ui/icons';
 
 const ProductCardForm = ({ product, calcularPrecioTotalItem }) => {
   const { addToCart, removeFromCart, removeAllItem } = useShoppingCart();
@@ -61,8 +65,8 @@ const ProductCardForm = ({ product, calcularPrecioTotalItem }) => {
         overflow='hidden'
         variant='outline'
         align='center'
-        minW={{ base: '60%'}}
-        width={{ base: '60%'}} 
+        minW={{ base: '100%'}}
+        width={{ base: '100%'}} 
       >
         <Image
           objectFit='cover'
@@ -73,9 +77,21 @@ const ProductCardForm = ({ product, calcularPrecioTotalItem }) => {
 
         <VStack p="6" align="center" spacing="1">
           <Heading fontSize="xl">{product.nombre}</Heading>
-          <CardText fontSize="md">
-            Cantidad: {product.quantity} - Precio Unitario: ${product.precio} - Precio Total: ${calcularPrecioTotalItem(product)}
-          </CardText>
+          <List spacing={2} textAlign="left" fontSize="md">
+            <ListItem>
+              <ListIcon as={CheckIcon} color="green.500" />
+              Cantidad: {product.quantity}
+            </ListItem>
+            <ListItem>
+              <ListIcon as={CheckIcon} color="green.500" />
+              Precio Unitario: ${product.precio}
+            </ListItem>
+            <ListItem>
+              <ListIcon as={CheckIcon} color="green.500" />
+              Precio Total: ${calcularPrecioTotalItem(product)}
+            </ListItem>
+          </List>
+
           <Stack direction="row">
             <Button backgroundColor='#fdcb00' size='xs' onClick={() => removeFromCart(product.id)}>
               -

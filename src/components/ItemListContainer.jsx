@@ -30,7 +30,7 @@ const ItemListContainer = () => {
         setProductos(filteredProducts);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching data from Firebase:', error);
+        console.error('Error en la carga de los productos', error);
         setLoading(false);
       }
     };

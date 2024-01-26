@@ -23,15 +23,15 @@
     cursor: pointer;
   }
   .cart-circle {
-    background-color: #fdcb00; /* Color de fondo del círculo */
-    color: black; /* Color del texto dentro del círculo */
-    border-radius: 50%; /* Hace que el contenedor sea un círculo */
-    width: 24px; /* Ajusta el ancho según sea necesario */
-    height: 24px; /* Ajusta la altura según sea necesario */
+    background-color: #fdcb00; 
+    color: black;
+    border-radius: 50%; 
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 5px; /* Ajusta el margen según sea necesario */
-    font-size: 14px; /* Ajusta el tamaño de la fuente según sea necesario */
+    margin-left: 5px;
+    font-size: 14px;
     font-weight: bold;
   }

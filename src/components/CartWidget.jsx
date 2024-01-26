@@ -55,17 +55,9 @@ const CartWidget = () => {
     localStorage.setItem('cart', JSON.stringify(cart));
   };
   return (
-    <div
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <AiOutlineShoppingCart size={40} />
-      <Drawer
-        isOpen={isOpen && isHovered}
-        placement='right'
-        onClose={onClose}
-        size='sm'
-      >
+      <Drawer isOpen={isOpen && isHovered} placement='right' onClose={onClose} size='sm'>
         <DrawerOverlay />
         <DrawerContent bg='#0f0f0fdc' color='#fff' borderRadius='5px'>
           <DrawerCloseButton />
@@ -101,19 +93,19 @@ const CartWidget = () => {
                     )}
                   </VStack>
                 )}
-              </DrawerBody>
+            </DrawerBody>
             <DrawerFooter>
-            <Link to={"/"}>
-              <Button variant='outline' mr={3} onClick={onClose} color='#fdcb00'>
-                Seguir comprando
-              </Button>
-            </Link>
-            <Link to='/carrito'>
-              <ChakraButton colorScheme='blue' onClick={onClose}>
-                Finalizar Compra
-              </ChakraButton>
-            </Link>
-          </DrawerFooter>
+              <Link to={"/"}>
+                <Button variant='outline' mr={3} onClick={onClose} color='#fdcb00'>
+                  Seguir comprando
+                </Button>
+              </Link>
+              <Link to='/carrito'>
+                <ChakraButton bg='#fdcb00' borderColor='#fdcb00' _hover={{ background: '#0f0f0fdc', color:'white'}} onClick={onClose}>
+                  Finalizar Compra
+                </ChakraButton>
+              </Link>
+           </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </div>
